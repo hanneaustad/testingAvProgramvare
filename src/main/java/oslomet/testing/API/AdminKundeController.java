@@ -18,7 +18,7 @@ public class AdminKundeController {
     private Sikkerhet sjekk;
 
     @GetMapping("/hentAlle")
-    public List<Kunde> hentAlle() {
+    public List<Kunde> hentAlle(Kunde kunde1) {
         String personnummer = sjekk.loggetInn();
         if (personnummer!=null) {
             return repository.hentAlleKunder();

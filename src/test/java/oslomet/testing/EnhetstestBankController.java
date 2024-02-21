@@ -9,6 +9,7 @@ import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.BankRepository;
 import oslomet.testing.Models.Konto;
 import oslomet.testing.Models.Kunde;
+import oslomet.testing.Models.Transaksjon;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
 import java.util.ArrayList;
@@ -33,6 +34,82 @@ public class EnhetstestBankController {
     @Mock
     // denne skal Mock'es
     private Sikkerhet sjekk;
+
+
+    @Test
+    public void testHentTransaksjoner() {
+
+        String kontoNr = "123456";
+        String fraDato = "2024-01-01";
+        String tilDato = "2024-01-31";
+        Konto mockKonto = new Konto();
+
+        when(sjekk.loggetInn()).thenReturn("123456789");
+
+        when(repository.hentTransaksjoner(kontoNr, fraDato, tilDato)).thenReturn(mockKonto);
+
+        Konto resultat = repository.hentTransaksjoner(kontoNr, fraDato, tilDato);
+
+        assertEquals(mockKonto, resultat);
+    }
+
+
+    @Test
+    public void testHentSaldi() {
+
+        String personnummer = "123456789";
+        List<Konto> mockSaldi = new ArrayList<>();
+
+        when(sjekk.loggetInn()).thenReturn(personnummer);
+
+        when(repository.hentSaldi(personnummer)).thenReturn(mockSaldi);
+
+        List<Konto> resultat = bankController.hentSaldi();
+
+        assertEquals(mockSaldi, resultat);
+    }
+
+    @Test
+    public void testRegistrerBetaling() {
+        Transaksjon mockBetaling = new Transaksjon();
+
+        when(sjekk.loggetInn()).thenReturn("123456789");
+
+        when(repository.registrerBetaling(mockBetaling)).thenReturn("Betaling registrert");
+
+        String resultat = bankController.registrerBetaling(mockBetaling);
+
+        assertEquals("Betaling registrert", resultat);
+    }
+
+    @Test
+    public void testHentBetalinger() {
+        when(sjekk.loggetInn()).thenReturn("123456789");
+
+        List<Transaksjon> mockBetalinger = new ArrayList<>();
+
+        when(repository.hentBetalinger("123456789")).thenReturn(mockBetalinger);
+
+        List<Transaksjon> resultat = bankController.hentBetalinger();
+
+        assertEquals(mockBetalinger, resultat);
+    }
+
+    @Test
+    public void testUtforBetaling() {
+        when(sjekk.loggetInn()).thenReturn("123456789");
+
+        int transaksjonsID = 123;
+
+        List<Transaksjon> oppdatertTranskasjonsliste = new ArrayList<>();
+
+        when(repository.utforBetaling(transaksjonsID)).thenReturn("OK");
+        when(repository.hentBetalinger("123456789")).thenReturn(oppdatertTranskasjonsliste);
+
+        List<Transaksjon> resultat = bankController.utforBetaling(transaksjonsID);
+
+        assertEquals(oppdatertTranskasjonsliste, resultat);
+    }
 
     @Test
     public void hentKundeInfo_loggetInn() {
@@ -99,6 +176,20 @@ public class EnhetstestBankController {
 
         // assert
         assertNull(resultat);
+    }
+
+    @Test
+    public void testEndreKundeInfo() {
+        when(sjekk.loggetInn()).thenReturn("123456789");
+
+        Kunde kunde = new Kunde();
+        kunde.setFornavn("Kari Nordmann");
+
+        when(repository.endreKundeInfo(kunde)).thenReturn("Kundeinfo endret");
+
+        String resultat = bankController.endre(kunde);
+
+        assertEquals("Kundeinfo endret", resultat);
     }
 }
 

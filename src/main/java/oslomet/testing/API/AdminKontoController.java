@@ -18,7 +18,7 @@ public class AdminKontoController {
     @Autowired
     private Sikkerhet sjekk;
 
-    @GetMapping("/hentAlle")
+    @GetMapping("/hentAlleKonto")
     public List<Konto> hentAlleKonti() {
         String personnummer = sjekk.loggetInn();
         if (personnummer!=null) {

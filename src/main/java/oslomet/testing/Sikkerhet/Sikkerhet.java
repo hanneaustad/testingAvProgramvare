@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import oslomet.testing.DAL.BankRepository;
 
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 @RestController
 public class Sikkerhet {
@@ -61,4 +62,5 @@ public class Sikkerhet {
         }
         return null;
     }
+
 }

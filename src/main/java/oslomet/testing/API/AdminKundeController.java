@@ -18,7 +18,7 @@ public class AdminKundeController {
     @Autowired
     private Sikkerhet sjekk;
 
-    @GetMapping("/hentAlle")
+    @GetMapping("/hentAlleKunder")
     public List<Kunde> hentAlle(Kunde kunde1) {
         String personnummer = sjekk.loggetInn();
         if (personnummer!=null) {

@@ -1,4 +1,9 @@
 -- Database: `Bank` DENNE MÅ VÆRE OPPRETTET FØR SCRIPTET KJØRES !!!
+drop table if exists Konto;
+drop table if exists Kunde;
+drop table if exists Poststed;
+drop table if exists Transaksjon;
+
 --
 
 -- --------------------------------------------------------
